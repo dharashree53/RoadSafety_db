@@ -1,0 +1,234 @@
+- Table for Accidents
+CREATE TABLE Accidents (
+    AccidentID INT PRIMARY KEY,
+    DateOccurred DATE,
+    TimeOccurred TIME,
+    LocationID INT,
+    WeatherConditionID INT,
+    RoadConditionID INT,
+    LawEnforcementReportID INT,
+    -- Add other relevant fields as needed
+);
+
+-- Table for Vehicles
+CREATE TABLE Vehicles (
+    VehicleID INT PRIMARY KEY,
+    AccidentID INT,
+    VehicleType VARCHAR(50),
+    LicensePlateNumber VARCHAR(20),
+    -- Add other relevant fields as needed
+);
+
+-- Table for Casualties
+CREATE TABLE Casualties (
+    CasualtyID INT PRIMARY KEY,
+    AccidentID INT,
+    Age INT,
+    Gender VARCHAR(10),
+    InjuryType VARCHAR(50),
+    -- Add other relevant fields as needed
+);
+
+-- Table for Locations
+CREATE TABLE Locations (
+    LocationID INT PRIMARY KEY,
+    StreetAddress VARCHAR(255),
+    City VARCHAR(100),
+    State VARCHAR(50),
+    -- Add other relevant fields as needed
+);
+
+-- Table for Weather Conditions
+CREATE TABLE WeatherConditions (
+    WeatherConditionID INT PRIMARY KEY,
+    ConditionDescription VARCHAR(100),
+    -- Add other relevant fields as needed
+);
+
+-- Table for Road Conditions
+CREATE TABLE RoadConditions (
+    RoadConditionID INT PRIMARY KEY,
+    ConditionDescription VARCHAR(100),
+    -- Add other relevant fields as needed
+);
+
+-- Table for Law Enforcement Reports
+CREATE TABLE LawEnforcementReports (
+    ReportID INT PRIMARY KEY,
+    OfficerName VARCHAR(100),
+    ReportDescription TEXT,
+    -- Add other relevant fields as needed
+);
+
+-- Table for Contributory Factors
+CREATE TABLE ContributoryFactors (
+    FactorID INT PRIMARY KEY,
+    Description VARCHAR(255),
+    -- Add other relevant fields as needed
+);
+
+Inserting values into the Accidents table:
+
+INSERT INTO Accidents (AccidentID, DateOccurred, TimeOccurred, LocationID, WeatherConditionID, RoadConditionID, LawEnforcementReportID) VALUES
+ (1, '2023-01-01', '08:30:00', 1, 1, 2, 1), 
+(2, '2023-02-15', '15:45:00', 2, 3, 1, 2), 
+(3, '2023-03-10', '12:20:00', 3, 2, 3, 3); 
+Inserting values into the Vehicles table:
+INSERT INTO Vehicles (VehicleID, AccidentID, VehicleType, LicensePlateNumber) 
+VALUES 
+(1, 1, 'Car', 'ABC123'), 
+(2, 1, 'Truck', 'XYZ789'), 
+(3, 2, 'Motorcycle', 'DEF456'); 
+
+Inserting values into the Casualties table:
+INSERT INTO Casualties (CasualtyID, AccidentID, Age, Gender, InjuryType) VALUES
+(1, 1, 25, 'Male', 'Minor Injury'), 
+(2, 1, 35, 'Female', 'Serious Injury'), 
+(3, 2, 40, 'Male', 'Fatal Injury'); 
+Inserting values into the Locations table:
+INSERT INTO Locations (LocationID, StreetAddress, City, State) VALUES 
+(1, '123 Main St', 'Cityville', 'StateA'), 
+(2, '456 Oak Ave', 'Townsville', 'StateB'), 
+(3, '789 Pine Rd', 'Villagetown', 'StateC');  
+
+Inserting values into the WeatherConditions table:
+
+INSERT INTO WeatherConditions (WeatherConditionID, ConditionDescription) VALUES 
+(1, 'Clear'), 
+(2, 'Rain'), 
+(3, 'Snow');  
+
+
+Inserting values into the RoadConditions table:
+INSERT INTO RoadConditions (RoadConditionID, ConditionDescription) VALUES 
+(1, 'Dry'),
+ (2, 'Wet'), 
+(3, 'Icy'),
+(4, ‘Fog’); 
+Inserting values into the LawEnforcementReports table:
+INSERT INTO LawEnforcementReports (ReportID, OfficerName, ReportDescription) VALUES 
+(1, 'Officer Smith', 'Accident under investigation'), 
+(2, 'Officer Johnson', 'Fault determined: speeding'), 
+(3, 'Officer Davis', 'Accident report completed'); 
+
+Inserting values into the ContributoryFactors table:
+INSERT INTO ContributoryFactors (FactorID, Description) VALUES 
+(1, 'Speeding'), 
+(2, 'Distracted Driving'), 
+(3, 'Weather Conditions'), 
+(4, 'Road Conditions'); 
+
+
+
+
+
+
+
+
+
+
+
+
+Queries
+
+1)	Retrieve Accident Details with Vehicle and Casualty Information:
+SELECT Accidents.AccidentID, DateOccurred, TimeOccurred, StreetAddress, City, State, VehicleType, LicensePlateNumber, Age, Gender, InjuryType
+FROM Accidents
+JOIN Locations ON Accidents.LocationID = Locations.LocationID
+LEFT JOIN Vehicles ON Accidents.AccidentID = Vehicles.AccidentID
+LEFT JOIN Casualties ON Accidents.AccidentID = Casualties.AccidentID;
+
+2)
+
+SELECT AccidentID, OfficerName, ReportDescription
+FROM Accidents
+JOIN LawEnforcementReports ON Accidents.LawEnforcementReportID = LawEnforcementReports.ReportID;
+
+
+
+
+
+2)	Find Accidents at Intersections:
+SELECT AccidentID, DateOccurred, TimeOccurred, StreetAddress, City, State
+FROM Accidents
+JOIN Locations ON Accidents.LocationID = Locations.LocationID
+WHERE StreetAddress LIKE '%intersection%';
+
+
+
+4)
+Retrieve Accidents with Multiple Vehicles and Casualties:
+SELECT Accidents.AccidentID, DateOccurred, TimeOccurred, COUNT(DISTINCT Vehicles.VehicleID) AS NumVehicles, COUNT(DISTINCT Casualties.CasualtyID) AS NumCasualties
+FROM Accidents
+JOIN Vehicles ON Accidents.AccidentID = Vehicles.AccidentID
+JOIN Casualties ON Accidents.AccidentID = Casualties.AccidentID
+GROUP BY Accidents.AccidentID
+HAVING NumVehicles > 1 AND NumCasualties > 1;
+
+
+
+5)
+Identify Locations with a High Rate of Hit-and-Run Incidents:
+SELECT StreetAddress, City, State, COUNT(*) AS HitAndRunCount
+FROM Accidents
+JOIN Locations ON Accidents.LocationID = Locations.LocationID
+WHERE LawEnforcementReportID IS NULL
+GROUP BY StreetAddress, City, State
+ORDER BY HitAndRunCount DESC;
+
+
+
+6)
+Retrieve Accidents with Unusual Patterns of Casualties:
+SELECT AccidentID , CasualtyID, Age, Gender, InjuryType
+FROM Casualties
+WHERE (Age > 60 AND InjuryType = 'Fatal')
+   OR (Age < 18 AND InjuryType = 'Minor');
+
+
+
+7)
+Calculate the Cumulative Casualty Count Over Time:
+SELECT DateOccurred, SUM(CasualtyCount) OVER (ORDER BY DateOccurred) AS CumulativeCasualties
+FROM (
+    SELECT DateOccurred, COUNT(*) AS CasualtyCount
+    FROM Accidents
+    JOIN Casualties ON Accidents.AccidentID = Casualties.AccidentID
+    GROUP BY DateOccurred
+) AS DailyCasualties;
+
+
+
+
+8)
+Retrieve Accidents with a High Number of Vehicles Involved
+
+SELECT AccidentID, COUNT(DISTINCT VehicleID) AS NumVehicles
+FROM Vehicles
+GROUP BY AccidentID
+ORDER BY NumVehicles DESC
+LIMIT 10;
+
+
+
+
+9)
+Identify Accidents with a High Number of Law Enforcement Reports:
+SELECT AccidentID, COUNT(DISTINCT LawEnforcementReportID) AS NumReports
+FROM Accidents
+GROUP BY AccidentID
+ORDER BY NumReports DESC
+LIMIT 10;
+
+
+10)
+Calculate the Average Number of Vehicles Involved in Accidents by City:
+SELECT City, AVG(NumVehicles) AS AvgVehiclesPerAccident
+FROM (
+    SELECT Accidents.AccidentID, Locations.City, COUNT(DISTINCT Vehicles.VehicleID) AS NumVehicles
+    FROM Accidents
+    JOIN Locations ON Accidents.LocationID = Locations.LocationID
+    JOIN Vehicles ON Accidents.AccidentID = Vehicles.AccidentID
+    GROUP BY Accidents.AccidentID, Locations.City
+) AS VehiclesPerAccident
+GROUP BY City;
