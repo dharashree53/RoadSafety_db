@@ -7,7 +7,7 @@ CREATE TABLE Accidents (
     WeatherConditionID INT,
     RoadConditionID INT,
     LawEnforcementReportID INT,
-    -- Add other relevant fields as needed
+    
 );
 
 -- Table for Vehicles
@@ -16,7 +16,7 @@ CREATE TABLE Vehicles (
     AccidentID INT,
     VehicleType VARCHAR(50),
     LicensePlateNumber VARCHAR(20),
-    -- Add other relevant fields as needed
+    
 );
 
 -- Table for Casualties
@@ -26,7 +26,7 @@ CREATE TABLE Casualties (
     Age INT,
     Gender VARCHAR(10),
     InjuryType VARCHAR(50),
-    -- Add other relevant fields as needed
+    
 );
 
 -- Table for Locations
@@ -35,21 +35,21 @@ CREATE TABLE Locations (
     StreetAddress VARCHAR(255),
     City VARCHAR(100),
     State VARCHAR(50),
-    -- Add other relevant fields as needed
+   
 );
 
 -- Table for Weather Conditions
 CREATE TABLE WeatherConditions (
     WeatherConditionID INT PRIMARY KEY,
     ConditionDescription VARCHAR(100),
-    -- Add other relevant fields as needed
+   
 );
 
 -- Table for Road Conditions
 CREATE TABLE RoadConditions (
     RoadConditionID INT PRIMARY KEY,
     ConditionDescription VARCHAR(100),
-    -- Add other relevant fields as needed
+    
 );
 
 -- Table for Law Enforcement Reports
@@ -57,14 +57,14 @@ CREATE TABLE LawEnforcementReports (
     ReportID INT PRIMARY KEY,
     OfficerName VARCHAR(100),
     ReportDescription TEXT,
-    -- Add other relevant fields as needed
+   
 );
 
 -- Table for Contributory Factors
 CREATE TABLE ContributoryFactors (
     FactorID INT PRIMARY KEY,
     Description VARCHAR(255),
-    -- Add other relevant fields as needed
+  
 );
 
 Inserting values into the Accidents table:
@@ -73,6 +73,7 @@ INSERT INTO Accidents (AccidentID, DateOccurred, TimeOccurred, LocationID, Weath
  (1, '2023-01-01', '08:30:00', 1, 1, 2, 1), 
 (2, '2023-02-15', '15:45:00', 2, 3, 1, 2), 
 (3, '2023-03-10', '12:20:00', 3, 2, 3, 3); 
+
 Inserting values into the Vehicles table:
 INSERT INTO Vehicles (VehicleID, AccidentID, VehicleType, LicensePlateNumber) 
 VALUES 
@@ -81,38 +82,46 @@ VALUES
 (3, 2, 'Motorcycle', 'DEF456'); 
 
 Inserting values into the Casualties table:
-INSERT INTO Casualties (CasualtyID, AccidentID, Age, Gender, InjuryType) VALUES
+INSERT INTO Casualties (CasualtyID, AccidentID, Age, Gender, InjuryType) 
+VALUES
 (1, 1, 25, 'Male', 'Minor Injury'), 
 (2, 1, 35, 'Female', 'Serious Injury'), 
 (3, 2, 40, 'Male', 'Fatal Injury'); 
+
 Inserting values into the Locations table:
-INSERT INTO Locations (LocationID, StreetAddress, City, State) VALUES 
+INSERT INTO Locations (LocationID, StreetAddress, City, State) 
+VALUES 
 (1, '123 Main St', 'Cityville', 'StateA'), 
 (2, '456 Oak Ave', 'Townsville', 'StateB'), 
 (3, '789 Pine Rd', 'Villagetown', 'StateC');  
 
 Inserting values into the WeatherConditions table:
 
-INSERT INTO WeatherConditions (WeatherConditionID, ConditionDescription) VALUES 
+INSERT INTO WeatherConditions (WeatherConditionID, ConditionDescription) 
+VALUES 
 (1, 'Clear'), 
 (2, 'Rain'), 
 (3, 'Snow');  
 
 
 Inserting values into the RoadConditions table:
-INSERT INTO RoadConditions (RoadConditionID, ConditionDescription) VALUES 
+INSERT INTO RoadConditions (RoadConditionID, ConditionDescription) 
+VALUES 
 (1, 'Dry'),
- (2, 'Wet'), 
+(2, 'Wet'), 
 (3, 'Icy'),
 (4, ‘Fog’); 
+
 Inserting values into the LawEnforcementReports table:
-INSERT INTO LawEnforcementReports (ReportID, OfficerName, ReportDescription) VALUES 
+INSERT INTO LawEnforcementReports (ReportID, OfficerName, ReportDescription) 
+VALUES 
 (1, 'Officer Smith', 'Accident under investigation'), 
 (2, 'Officer Johnson', 'Fault determined: speeding'), 
 (3, 'Officer Davis', 'Accident report completed'); 
 
 Inserting values into the ContributoryFactors table:
-INSERT INTO ContributoryFactors (FactorID, Description) VALUES 
+INSERT INTO ContributoryFactors (FactorID, Description) 
+VALUES 
 (1, 'Speeding'), 
 (2, 'Distracted Driving'), 
 (3, 'Weather Conditions'), 
